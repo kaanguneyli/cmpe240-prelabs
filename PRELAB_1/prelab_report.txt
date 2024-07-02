@@ -1,0 +1,91 @@
+Prelab
+
+int a = 0b00; // 2-bit unsigned integer
+int b = 0b00; // 2-bit unsigned integer
+int c = 0b00; // 2-bit unsigned integer
+
+if (a < 1) and (b < 3):
+	c = 0b00
+else if (a ^ b) < 2: // ^ means xor
+	c = 0b01
+else if a > b:
+	c = 0b10
+else:
+	c = 0b11
+
+
+Fill in the truth table. Change XX values to 00, 01, 10 or 11.
+
+a1a0b1b0 	c1c0
+0000 		00
+0001 		00
+0010 		00
+0011 		11
+0100 		01
+0101 		01
+0110 		11
+0111 		11
+1000 		10
+1001 		10
+1010 		01
+1011 		01
+1100 		10
+1101 		10
+1110 		01
+1111 		01
+
+You can use pqrs. Using a1a0b1b0 will be harder to read. Use p'q'r's' for prime forms.
+
+Used form: PoS
+c0 = (p+q+r+s)(p+q+r+s')(p+q+r'+s)(p'+q+r+s)(p'+q+r+s')(p'+q'+r+s)(p'+q'+r+s')
+
+Used form: SoP
+c1 = p'q'rs + p'qrs' + p'qrs + pq'r's' + pq'r's + pqr's' + pqr's
+
+
+Minimize c0
+c0 = (p+q+r+s)(p+q+r+s')(p+q+r'+s)(p'+q+r+s)(p'+q+r+s')(p'+q'+r+s)(p'+q'+r+s')
+   = (p+q+r+ss')(p+q+r'+s)(p'+q+r+s)(p'+q+r+s')(p'+q'+r+s)(p'+q'+r+s') (Distributive)
+   = (p+q+r+ss')(p+q+r'+s)(p'+q+r+ss')(p'+q'+r+s)(p'+q'+r+s') (Distributive)
+   = (p+q+r+ss')(p+q+r'+s)(p'+q+r+ss')(p'+q'+r+ss') (Distributive)
+   = (p+q+r+0)(p+q+r'+s)(p'+q+r+ss')(p'+q'+r+ss') (Complement)
+   = (p+q+r+0)(p+q+r'+s)(p'+q+r+0)(p'+q'+r+ss') (Complement)
+   = (p+q+r+0)(p+q+r'+s)(p'+q+r+0)(p'+q'+r+0) (Complement)
+   = (p+q+r)(p+q+r'+s)(p'+q+r+0)(p'+q'+r+0) (Identity)
+   = (p+q+r)(p+q+r'+s)(p'+q+r)(p'+q'+r+0) (Identity)
+   = (p+q+r)(p+q+r'+s)(p'+q+r)(p'+q'+r) (Identity)
+   = (p+q+r(r'+s))(p'+q+r)(p'+q'+r) (Distributive)
+   = (p+q+r(r'+s))(p'+r+qq') (Distributive)
+   = (p+q+rr'+rs)(p'+r+qq') (Distributive)
+   = (p+q+0+rs)(p'+r+qq') (Complement)
+   = (p+q+0+rs)(p'+r+0) (Complement)
+   = (p+q+rs)(p'+r+0) (Identity)
+   = (p+q+rs)(p'+r) (Identity) 
+   = (p+q+r)(p+q+s)(p'+r) (Distributive)
+   = (p'(p+q)+r)(p+q+s) (Distributive)
+   = ((p'p+p'q)+r)(p+q+s) (Distributive)
+   = (0+p'q+r)(p+q+s) (Complement)
+   = (p'q+r)(p+q+s) (Identity)
+   = (p'+r)(q+r)(p+q+s) (Distributive)
+
+
+Minimize c1
+c1 = p'q'rs + p'qrs' + p'qrs + pq'r's' + pq'r's + pqr's' + pqr's
+   = p'r(q's+qs'+qs) + pq'r's' + pq'r's + pqr's' + pqr's (Distributive)
+   = p'r(q's+qs'+qs) + p(q'r's'+q'r's+qr's'+qr's) (Distributive)
+   = p'r(q's+qs'+qs) + p(q'r'(s'+s)+qr's'+qr's) (Distributive)
+   = p'r(q's+qs'+qs) + p(q'r'(s'+s)+qr'(s'+s)) (Distributive)
+   = p'r(q's+qs'+qs) + p(q'r'1+qr'(s'+s)) (Complement)  
+   = p'r(q's+qs'+qs) + p(q'r'1+qr'1) (Complement)
+   = p'r(q's+qs'+qs) + p(q'r'+qr'1) (Identity)
+   = p'r(q's+qs'+qs) + p(q'r'+qr') (Identity)
+   = p'r(q's+q(s'+s)) + p(q'r'+qr') (Distributive)
+   = p'r(q's+q(s'+s)) + pr'(q'+q) (Distributive)
+   = p'r(q's+q1) + pr'(q'+q) (Complement)
+   = p'r(q's+q1) + pr'1 (Complement) 
+   = p'r(q's+q) + pr'1 (Identity)
+   = p'r(q's+q) + pr' (Identity)
+   = p'r(q+q')(q+s) + pr' (Distributive)
+   = p'r1(q+s) + pr' (Complement)
+   = p'r(q+s) + pr' (Identity)
+   = p'rq + p'rs + pr' (Distributive) 
